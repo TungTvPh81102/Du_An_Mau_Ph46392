@@ -1,0 +1,2 @@
+<?php
+$imgPath = "../../upload/";
