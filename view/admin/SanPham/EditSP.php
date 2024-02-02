@@ -46,32 +46,29 @@
                             <select name="ma_loai" id="">
                                 <option value="0">---Chọn loại hàng---</option>
                                 <?php foreach ($loadAllLoai as $loai) : ?>
-                                <?php if ($editSp['ma_loai'] == $loai['ma_loai']) { ?>
-                                <option value="<?= $loai['ma_loai'] ?>" selected><?= $loai['ten_loai'] ?></option>
-                                <?php } else { ?>
-                                <option value="<?= $loai['ma_loai'] ?>"><?= $loai['ten_loai'] ?></option>
-                                <?php }  ?>
+                                    <?php if ($editSp['ma_loai'] == $loai['ma_loai']) { ?>
+                                        <option value="<?= $loai['ma_loai'] ?>" selected><?= $loai['ten_loai'] ?></option>
+                                    <?php } else { ?>
+                                        <option value="<?= $loai['ma_loai'] ?>"><?= $loai['ten_loai'] ?></option>
+                                    <?php }  ?>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="">Tên sản phẩm</label>
-                            <input type="text" name="ten_sp" id="" placeholder="Nhập vào tên sản phẩm"
-                                value="<?= $editSp['ten_sp'] ?>">
+                            <input type="text" name="ten_sp" id="" placeholder="Nhập vào tên sản phẩm" value="<?= $editSp['ten_sp'] ?>">
                             <span style="color: red;">
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Đơn giá</label>
-                            <input type="text" name="don_gia" id="" placeholder="Nhập giá sản phẩm"
-                                value="<?= $editSp['don_gia'] ?>">
+                            <input type="text" name="don_gia" id="" placeholder="Nhập giá sản phẩm" value="<?= $editSp['don_gia'] ?>">
                             <span style="color: red;">
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Giảm giá (nếu có)</label>
-                            <input type="text" name="giam_gia" id="" placeholder="Nhập giảm giá (nếu có)"
-                                value="<?= $editSp['giam_gia'] ?>">
+                            <input type="text" name="giam_gia" id="" placeholder="Nhập giảm giá (nếu có)" value="<?= $editSp['giam_gia'] ?>">
                             <span style="color: red;">
                             </span>
                         </div>
@@ -90,7 +87,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Mô tả</label>
-                            <textarea name="mo_ta" id="" cols="30" rows="10">
+                            <textarea id="ckeditor" name="mo_ta" id="" cols="30" rows="10">
                                 <?= $editSp['mo_ta'] ?>
                             </textarea>
                             <span style="color: red;">

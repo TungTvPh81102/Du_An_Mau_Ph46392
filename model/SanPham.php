@@ -67,3 +67,14 @@ function sanPhamCungLoai($maSp, $maLoai)
     $sql = "SELECT * FROM sanpham WHERE ma_loai = '$maLoai' AND ma_sp <> '$maSp'";
     return pdo_query($sql);
 }
+
+// TÌM KIẾM SẢN PHẨM
+function timKiemSanPham($keyWord)
+{
+    $sql = "SELECT * FROM sanpham WHERE 1";
+    if ($keyWord !== "") {
+        $sql .= " AND ten_sp LIKE '%" . $keyWord . "%'";
+    }
+    $sql .= " ORDER BY ma_sp DESC";
+    return pdo_query($sql);
+}

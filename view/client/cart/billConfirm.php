@@ -13,16 +13,11 @@
                 <span class="pb-3"><strong>Địa chỉ giao hàng:</strong> <?= $donHang['bill_address'] ?></span>
                 <span class="pb-3"><strong>Email:</strong> <?= $donHang['bill_email'] ?></span>
                 <span class="pb-3"><strong>Số điện thoại:</strong> <?= $donHang['bill_tel'] ?></span>
+                <span class="pb-3"><strong>Ngày đặt hàng:</strong> <?= $donHang['ngay_dat'] ?></span>
             </div>
             <div class="box-title">Phương thức thanh toán</div>
             <div class="box-content mb-3">
-                <?php if ($donHang['bill_pttt'] == 1) {
-                    echo 'Thanh toán trực tiếp';
-                } elseif ($donHang['bill_pttt'] == 2) {
-                    echo 'Chuyển khoản online';
-                } else {
-                    echo 'Thanh toán khi nhận hàng';
-                } ?>
+                <?= $pttt ?>
             </div>
             <div class="box-title">Thông tin giỏ hàng</div>
             <div class="box-content">
@@ -42,15 +37,15 @@
                         foreach ($chiTietDonHang as $donHang) :
                             $tong += $donHang['thanh_tien'];
                         ?>
-                        <tr>
-                            <td style="width: 300px;"><?= $donHang['ten_sp'] ?></td>
-                            <td>
-                                <img style="width: 70px;" src="../../upload/<?= $donHang['hinh'] ?>" alt="">
-                            </td>
-                            <td><?= number_format($donHang['gia'], 0) ?></td>
-                            <td><?= $donHang['so_luong'] ?></td>
-                            <td><?= number_format($donHang['thanh_tien'], 0) ?></td>
-                        </tr>
+                            <tr>
+                                <td style="width: 300px;"><?= $donHang['ten_sp'] ?></td>
+                                <td>
+                                    <img style="width: 70px;" src="../../upload/<?= $donHang['hinh'] ?>" alt="">
+                                </td>
+                                <td><?= number_format($donHang['gia'], 0) ?></td>
+                                <td><?= $donHang['so_luong'] ?></td>
+                                <td><?= number_format($donHang['thanh_tien'], 0) ?></td>
+                            </tr>
                         <?php endforeach; ?>
                         <td colspan="4" class="fw-bold">Tổng thanh toán</td>
                         <td><?= number_format($tong, 0) ?></td>

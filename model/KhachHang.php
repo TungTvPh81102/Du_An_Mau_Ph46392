@@ -15,9 +15,9 @@ function loadAllKhachHang()
 
 function insertKhachHang($hoTen, $email, $matKhau, $hinh, $diaChi, $soDT, $vaiTro, $kichHoat)
 {
-    $sql = "INSERT INTO khachhang(ho_ten,email,mat_khau,hinh,dia_chi,so_dt,vai_tro,kich_hoat) VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO khachhang(ho_ten,email,mat_khau,hinh,dia_chi,so_dt,vai_tro,kich_hoat) VALUES ('$hoTen','$email','$matKhau','$hinh','$diaChi','$soDT','$vaiTro','$kichHoat')";
 
-    pdo_execute($sql, $hoTen, $email, $matKhau, $hinh, $diaChi, $soDT, $vaiTro == 1, $kichHoat == 1);
+    pdo_execute($sql);
 }
 
 // EDIT KHÁCH HÀNG
@@ -31,11 +31,11 @@ function editKhachHang($maKH)
 function updateKhachHang($maKH, $hoTen, $email, $matKhau, $hinh, $diaChi, $soDT, $vaiTro, $kichHoat)
 {
     if ($hinh !== "") {
-        $sql = "UPDATE khachhang SET ho_ten = ? , email = ? , mat_khau = ? , hinh = ? , dia_chi = ? , so_dt = ? , vai_tro = ? , kich_hoat = ? WHERE ma_kh = ?";
-        pdo_execute($sql, $hoTen, $email, $matKhau, $hinh, $diaChi, $soDT, $vaiTro == 1, $kichHoat == 1, $maKH);
+        $sql = "UPDATE khachhang SET ho_ten = '$hoTen' , email = '$email' , mat_khau = '$matKhau' , hinh = '$hinh' , dia_chi = '$diaChi' , so_dt = '$soDT' , vai_tro = '$vaiTro' , kich_hoat = '$kichHoat' WHERE ma_kh = '$maKH'";
+        pdo_execute($sql);
     } else {
-        $sql = "UPDATE khachhang SET ho_ten = ? , email = ? , mat_khau = ? , dia_chi = ? , so_dt = ? , vai_tro = ? , kich_hoat = ? WHERE ma_kh = ?";
-        pdo_execute($sql, $hoTen, $email, $matKhau, $diaChi, $soDT, $vaiTro == 1, $kichHoat == 1, $maKH);
+        $sql = "UPDATE khachhang SET ho_ten = '$hoTen' , email = '$email' , mat_khau = '$matKhau' , dia_chi = '$diaChi' , so_dt = '$soDT' , vai_tro = '$vaiTro' , kich_hoat = '$kichHoat' WHERE ma_kh = '$maKH'";
+        pdo_execute($sql);
     }
 }
 
@@ -67,7 +67,7 @@ function capNhatTaiKhoan($maKH, $hoTen, $email, $hinh, $diaChi, $soDT)
 // CHECK TÀI KHOẢN
 function checkUser($email, $matKhau, $vaiTro)
 {
-    if ($vaiTro == 1) {
+    if ($vaiTro == 2) {
         $sql = "SELECT * FROM khachhang WHERE email = '$email' AND mat_khau = '$matKhau' AND vai_tro = '$vaiTro'";
     } else {
         $sql = "SELECT * FROM khachhang WHERE email = '$email' AND mat_khau = '$matKhau'";

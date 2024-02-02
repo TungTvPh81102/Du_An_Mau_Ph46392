@@ -79,6 +79,7 @@
                             <label for="">Hình</label>
                             <input type="file" name="hinh" id="">
                             <span style="color: red;">
+                                <?php echo (!empty($errorMessage['hinh'])) ? $errorMessage['hinh'] : "" ?>
                             </span>
                         </div>
                         <div class="form-group">
@@ -95,13 +96,13 @@
                         </div>
                         <div style="padding-left: 0;" class="form-check">
                             <label for="">Kích hoạt?</label>
-                            <input type="radio" name="kich_hoat" id="" value="0"> Chưa kích hoạt
-                            <input type="radio" name="kich_hoat" id="" value="1" checked> Kích hoạt
+                            <input type="radio" name="kich_hoat" id="" value="1" checked> Chưa kích hoạt
+                            <input type="radio" name="kich_hoat" id="" value="2"> Kích hoạt
                         </div>
                         <div style="padding-left: 0;" class="form-check">
                             <label for="">Vai trò?</label>
-                            <input type="radio" name="vai_tro" id="" value="0"> Khách hàng
-                            <input type="radio" name="vai_tro" id="" value="1" checked> Quản trị viên
+                            <input type="radio" name="vai_tro" id="" value="1" checked> Khách hàng
+                            <input type="radio" name="vai_tro" id="" value="2"> Quản trị viên
                         </div>
                     </div>
                     <div class="card-footer">

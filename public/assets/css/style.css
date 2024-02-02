@@ -703,3 +703,8 @@ a {
   padding: 10px 20px;
   border: 1px #ccc solid;
 }
+
+.ck-editor__editable[role="textbox"] {
+  /* Editing area */
+  min-height: 200px;
+}

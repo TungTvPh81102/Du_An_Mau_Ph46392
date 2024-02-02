@@ -7,6 +7,7 @@
     <title>Giao Diện Khách Hàng</title>
     <link rel="stylesheet" href="../../public/assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="../../public/assets/css/style2.css">
+    <link rel="shortcut icon" href="../../public/assets/img/logo.png" type="image/x-icon">
 </head>
 
 <body>
@@ -41,9 +42,9 @@
                             <a class="nav-link" href="index.php?act=lien-he">Liên hệ</a>
                         </li>
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    <form class="d-flex" action="index.php?act=search" method="post">
+                        <input name="keyword" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <input name="search" class="btn btn-outline-success" type="submit" value="search">
                     </form>
                 </div>
             </div>

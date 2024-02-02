@@ -57,9 +57,9 @@ function tongDonHang()
 }
 
 
-function taoDonHang($hoTen, $email, $diaChi, $soDT, $pttt, $ngayDatHang, $tongDonHang)
+function taoDonHang($hoTen, $diaChi, $soDT, $email, $pttt, $tongDonHang, $ngayDatHang, $maKh)
 {
-    $sql = "INSERT INTO bill (bill_name,bill_email,bill_address,bill_tel,bill_pttt,ngay_dat,total) VALUES ('$hoTen','$email','$diaChi','$soDT','$pttt','$ngayDatHang','$tongDonHang')";
+    $sql = "INSERT INTO bill (bill_name,bill_address,bill_tel,bill_email,bill_pttt,total,ngay_dat,ma_kh) VALUES ('$hoTen','$diaChi','$soDT','$email','$pttt','$tongDonHang','$ngayDatHang','$maKh')";
     return pdo_execute_return_lastInsertId($sql);
 }
 
@@ -89,6 +89,37 @@ function loadAllCart($idBill)
     $sql = "SELECT * FROM cart WHERE id_bill = '$idBill'";
     return pdo_query($sql);
 }
+
+function loadOneCart($idBill)
+{
+    $sql = "SELECT * FROM cart WHERE id_cart = '$idBill'";
+    return pdo_query_one($sql);
+}
+
+function updateBill($idBill, $soLuong, $thanhTien)
+{
+    $sql = "UPDATE cart SET so_luong = '$soLuong', thanh_tien='$thanhTien' WHERE id_cart ='$idBill'";
+    pdo_execute($sql);
+}
+
+function addBill($maSp, $hinh, $tenSp, $gia, $soLuong, $maKh, $idBill, $thanhTien)
+{
+    $sql = "INSERT INTO cart(ma_sp,hinh,ten_sp,gia,so_luong,ma_kh,id_bill,thanh_tien) VALUES ('$maSp','$hinh','$tenSp','$gia','$soLuong','$maKh','$idBill','$thanhTien')";
+    pdo_execute($sql);
+}
+
+function loadBill($maKh)
+{
+    $sql = "SELECT * FROM bill WHERE ma_kh = '$maKh'";
+    return pdo_query_one($sql);
+}
+
+function delBill($idBill)
+{
+    $sql = "DELETE FROM cart WHERE id_cart = '$idBill'";
+    pdo_execute($sql);
+}
+
 
 // Load đơn hàng của tôi
 function loadMyBill($maKh)

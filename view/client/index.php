@@ -3,14 +3,19 @@ session_start();
 include "layout/header.php";
 include "../../global.php";
 require_once "../../model/pdo.php";
+require_once "../../email/phpmailer/Exception.php";
+require_once "../../email/phpmailer/PHPMailer.php";
+require_once "../../email/phpmailer/SMTP.php";
+require_once "../../model/email.php";
 require_once "../../model/loai.php";
 require_once "../../model/SanPham.php";
 require_once "../../model/KhachHang.php";
 require_once "../../model/cart.php";
-$loadAllSanPham =  loadAllSanPhamHome();
+// sendEmail('quaixe121811@gmail.com', 'PHP Backend Developer', 'Xin chào Bạn tôi tên là: Trương Văn Tùng');
+$loadAllSanPham =  timKiemSanPham($keyWord = "");
 $loadAllDanhMuc  = loadAllDanhMucHome();
 $topSanPham = topSanPham();
-
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 // Kiểm tra xem mmagnr my_Cart tồn tại chưa
 if (!isset($_SESSION['my_cart'])) {
     // $_SESSION['my_cart'];
@@ -19,6 +24,22 @@ if (!isset($_SESSION['my_cart'])) {
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
     switch ($act) {
+        case 'email':
+            if (isset($_POST['email']) && ($_POST['email'])) {
+                $email = $_POST['email'];
+                $content = $_POST['content'];
+                $name = $_POST['name'];
+                $phone = $_POST['phone'];
+                sendEmail($name, $phone, $email, 'PHP BackEnd Developer', $content);
+            }
+            break;
+        case 'search':
+            if (isset($_POST['search']) && ($_POST['search'])) {
+                $keyWord = $_POST['keyword'];
+                $loadAllSanPham = timKiemSanPham($keyWord);
+            }
+            include "layout/home.php";
+            break;
         case 'dang-nhap':
             if (isset($_POST['login']) && ($_POST['login'])) {
                 $email = $_POST['email'];
@@ -191,14 +212,14 @@ if (isset($_GET['act'])) {
                 echo '<script>alert("Vui lòng đăng nhập để đặt hàng")</script>';
                 echo '<script>window.location.href="index.php?act=view-cart"</script>';
             } else {
-
                 include "cart/bill.php";
             }
             break;
         case 'bill-confirm':
             if (isset($_POST['dat-hang'])) {
                 // Tạo đơn hàng
-                // if (isset($_SESSION['my_cart'])) {
+                // if (isset($_SESSION['my_cart'])) {\
+                $maKh = $_POST['ma_kh'];
                 $hoTen = $_POST['ho_ten'];
                 $diaChi = $_POST['dia_chi'];
                 $email = $_POST['email'];
@@ -206,21 +227,29 @@ if (isset($_GET['act'])) {
                 $pttt = $_POST['pttt'];
                 $ngayDatHang = date('h:i:sa d/m/Y');
                 $tongDonHang = tongDonHang();
-                var_dump($hoTen, $diaChi, $email, $soDt);
+                var_dump($hoTen, $diaChi, $soDt, $email, $pttt, $tongDonHang, $ngayDatHang, $maKh);
+                if ($pttt == 1) {
+                    $pttt = 'Trả tiền khi nhận hàng';
+                } elseif ($pttt == 2) {
+                    $pttt = 'Chuyển khoản ngân hàng';
+                } else {
+                    $pttt = 'Thanh toán khác';
+                }
 
-                $idDonHang = taoDonHang($hoTen, $email, $diaChi, $soDt, $pttt, $ngayDatHang, $tongDonHang);
+                $idDonHang = taoDonHang($hoTen, $diaChi, $soDt, $email, $pttt, $tongDonHang, $ngayDatHang, $maKh);
                 // Inssert into bảng cart với $_Session['my_cart] và idDonHang;
                 // Tạo giỏ hàng
                 foreach ($_SESSION['my_cart'] as $cart) {
                     insertCart($_SESSION['user']['ma_kh'], $cart[0], $cart[2], $cart[1], $cart[3], $cart[4], $cart[5], $idDonHang);
                 }
+
                 // } else {
                 $_SESSION['my_cart'] = [];
                 // }
-            }
-            if (isset($idDonHang)) {
-                $donHang = loadDonHang($idDonHang);
-                $chiTietDonHang = loadAllCart($idDonHang);
+                if (isset($idDonHang)) {
+                    $donHang = loadDonHang($idDonHang);
+                    $chiTietDonHang = loadAllCart($idDonHang);
+                }
             }
             include "cart/billConfirm.php";
             break;

@@ -1,7 +1,30 @@
 <div class="row mb-3">
     <div class="col-9">
-        <div class="banner mb-3">
-            <img src="../../public/assets/img/banner.webp" alt="">
+        <div id="carouselExampleIndicators" class="carousel slide mb-3 " data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner rounded ">
+                <div class="carousel-item active">
+                    <img src="../../public/assets/img/banner.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="../../public/assets/img/banner2.webp" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="../../public/assets/img/banner3.webp" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
         <div class="card-item mb-3">
             <?php foreach ($loadAllSanPham as $sanPham) : ?>
@@ -24,11 +47,6 @@
                     </div>
                 </div>
             <?php endforeach; ?>
-        </div>
-        <div class="div">
-            <?php if ($_SESSION['user']) { ?>
-                <div class="btn btn-primary"><?= $_SESSION['user']['ho_ten'] ?></div>
-            <?php  } ?>
         </div>
     </div>
     <?php include "boxRight.php" ?>

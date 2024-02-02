@@ -59,44 +59,50 @@
                 </form>
             </div>
             <div class="card-body ">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th scope="col">ID</th>
-                            <th scope="col">Tên Sản Phẩm</th>
-                            <th scope="col">Đơn Giá</th>
-                            <th scope="col">Giảm Giá</th>
-                            <th scope="col">Hình</th>
-                            <th scope="col">Ngày Nhập</th>
-                            <th scope="col">Mô Tả</th>
-                            <th scope="col">Số Lượt Xem</th>
-                            <th scope="col">Thao Tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($loadAllSp as $sp) : ?>
+                <form action="index.php?act=xoa-sp-all" method="post">
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th><input type="checkbox" name="" id=""></th>
-                                <th scope="row"><?= $sp['ma_sp'] ?></th>
-                                <td scope="row"><?= $sp['ten_sp'] ?></td>
-                                <td scope="row"><?= number_format($sp['don_gia'], 0) ?></td>
-                                <td scope="row"><?= $sp['giam_gia'] ?></td>
-                                <td scope="row">
-                                    <img style="width: 70px; height:70px; object-fit: cover;" src="../../upload/<?= $sp['hinh'] ?>" alt="">
-                                </td>
-                                <td scope="row"><?= $sp['ngay_nhap'] ?></td>
-                                <td scope="row"><?= $sp['mo_ta'] ?></td>
-                                <td scope="row"><?= $sp['so_luot_xem'] ?></td>
-                                <td>
-                                    <a href="index.php?act=edit-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="btn btn-warning">Sửa</a>
-                                    <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')" href="index.php?act=xoa-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="
-                                                    btn btn-danger">Xóa</a>
-                                </td>
+                                <th></th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên Sản Phẩm</th>
+                                <th scope="col">Đơn Giá</th>
+                                <th scope="col">Giảm Giá</th>
+                                <th scope="col">Hình</th>
+                                <th scope="col">Ngày Nhập</th>
+                                <th scope="col">Mô Tả</th>
+                                <th scope="col">Số Lượt Xem</th>
+                                <th scope="col">Thao Tác</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($loadAllSp as $sp) : ?>
+                                <tr>
+                                    <th><input type="checkbox" name="ma_sp[]" id="checkbox" value="<?= $sp['ma_sp'] ?>">
+                                    </th>
+                                    <th scope="row"><?= $sp['ma_sp'] ?></th>
+                                    <td scope="row"><?= $sp['ten_sp'] ?></td>
+                                    <td scope="row"><?= number_format($sp['don_gia'], 0) ?></td>
+                                    <td scope="row"><?= $sp['giam_gia'] ?></td>
+                                    <td scope="row">
+                                        <img style="width: 70px; height:70px; object-fit: cover;" src="../../upload/<?= $sp['hinh'] ?>" alt="">
+                                    </td>
+                                    <td scope="row"><?= $sp['ngay_nhap'] ?></td>
+                                    <td scope="row"><?= $sp['mo_ta'] ?></td>
+                                    <td scope="row"><?= $sp['so_luot_xem'] ?></td>
+                                    <td>
+                                        <a href="index.php?act=edit-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="btn btn-warning">Sửa</a>
+                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')" href="index.php?act=xoa-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="
+                                                    btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <button type="button" name="" id="check-all" class="btn btn-success">Chọn tất cả</button>
+                    <button type="button" name="" id="clear-all" class="btn btn-danger">Bỏ chọn</button>
+                    <button onclick="return confirm('Xóa các mục đã chọn chứ?')" id="btn-delete" name="btn_delete" class="btn btn-default">Xóa các mục chọn</button>
+                </form>
             </div>
         </div>
     </div>

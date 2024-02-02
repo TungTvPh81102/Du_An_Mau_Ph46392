@@ -5,23 +5,27 @@
             <div class="row mb-3">
                 <div class="box-title">Sản phẩm</div>
                 <div class="box-content detail">
-                    <div class="detail-img">
-                        <img src="../../upload/<?= $sanPhamChiTiet['hinh'] ?>" alt="">
-                    </div>
-                    <div class="detail-content">
-                        <span>Tên sản phẩm: <?= $sanPhamChiTiet['ten_sp'] ?></span>
-                        <span>Đơn giá: <?= number_format($sanPhamChiTiet['don_gia'], 0) ?> VNĐ</span>
-                        <span>Mô tả: <?= $sanPhamChiTiet['mo_ta'] ?></span>
-                        <!-- <a href="index.php?act=them-gio-hang" class="btn btn-primary">Thêm vào giỏ hàng</a> -->
-                        <form action="index.php?act=them-gio-hang" method="post">
-                            <input type="hidden" name="ma_sp" value="<?= $sanPhamChiTiet['ma_sp'] ?>">
-                            <input type="hidden" name="ten_sp" value="<?= $sanPhamChiTiet['ten_sp'] ?>">
-                            <input type="hidden" name="don_gia" value="<?= $sanPhamChiTiet['don_gia'] ?>">
-                            <input type="hidden" name="hinh" value="<?= $sanPhamChiTiet['hinh'] ?>">
-                            <input style="width: 70px;" class="text-center mb-3" type="number" name="so_luong" id="" value="1">
-                            <input class="btn btn-primary" type="submit" value="Thêm vào giỏ hàng" name="add-cart">
-                        </form>
-                    </div>
+                    <?php if (!empty($sanPhamChiTiet)) { ?>
+                        <div class="detail-img">
+                            <img src="../../upload/<?= $sanPhamChiTiet['hinh'] ?>" alt="">
+                        </div>
+                        <div class="detail-content">
+                            <span>Tên sản phẩm: <?= $sanPhamChiTiet['ten_sp'] ?></span>
+                            <span>Đơn giá: <?= number_format($sanPhamChiTiet['don_gia'], 0) ?> VNĐ</span>
+                            <span>Mô tả: <?= $sanPhamChiTiet['mo_ta'] ?></span>
+                            <!-- <a href="index.php?act=them-gio-hang" class="btn btn-primary">Thêm vào giỏ hàng</a> -->
+                            <form action="index.php?act=them-gio-hang" method="post">
+                                <input type="hidden" name="ma_sp" value="<?= $sanPhamChiTiet['ma_sp'] ?>">
+                                <input type="hidden" name="ten_sp" value="<?= $sanPhamChiTiet['ten_sp'] ?>">
+                                <input type="hidden" name="don_gia" value="<?= $sanPhamChiTiet['don_gia'] ?>">
+                                <input type="hidden" name="hinh" value="<?= $sanPhamChiTiet['hinh'] ?>">
+                                <input style="width: 70px;" class="text-center mb-3" type="number" name="so_luong" id="" value="1">
+                                <input class="btn btn-primary" type="submit" value="Thêm vào giỏ hàng" name="add-cart">
+                            </form>
+                        </div>
+                    <?php } else {
+                        header("location: index.php");
+                    } ?>
                 </div>
             </div>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

@@ -3,24 +3,24 @@
         <div class="col-7">
             <div class="form">
                 <h1 class="text-center">Hãy để lại thông tin nếu bạn cần chúng tôi liên hệ lại</h1>
-                <form class="mt-3">
+                <form class="mt-3" action="index.php?act=email" method="post">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Họ tên</label>
-                        <input type="text" class="form-control" placeholder="Điền họ tên của bạn..." required>
+                        <input name="name" type="text" class="form-control" placeholder="Điền họ tên của bạn...">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" placeholder="Điền số điện thoại của bạn..." required>
+                        <input name="phone" type="text" class="form-control" placeholder="Điền số điện thoại của bạn...">
                     </div>
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Email address</label>
-                        <input type="email" class="form-control" placeholder="Nhập địa chỉ email..." required>
+                        <input name="email" type="email" class="form-control" placeholder="Nhập địa chỉ email..." required>
                     </div>
                     <div class="mb-3">
                         <label for="exampleFormControlTextarea1" class="form-label">Nội dung thắc mắc</label>
-                        <textarea style="height: 120px; resize: none;" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Nhập nội dung..."></textarea>
+                        <textarea name="content" style="height: 120px; resize: none;" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Nhập nội dung..."></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Gửi thông tin</button>
+                    <input name="sendEmail" type="submit" class="btn btn-primary" value="Gửi thông tin">
                 </form>
             </div>
         </div>

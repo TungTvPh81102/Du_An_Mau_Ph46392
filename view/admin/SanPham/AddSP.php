@@ -79,7 +79,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Mô tả</label>
-                            <textarea name="mo_ta" id="" cols="30" rows="10"></textarea>
+                            <textarea class="ckeditor" name="mo_ta" cols="30" rows="10" id="ckeditor"></textarea>
                             <span style="color: red;">
                                 <?php echo (!empty($errorMessage['mo_ta'])) ? $errorMessage['mo_ta'] : ""; ?>
                             </span>

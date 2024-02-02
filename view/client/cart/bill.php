@@ -3,12 +3,14 @@
         <div class="col-9">
             <form action="index.php?act=bill-confirm" method="post">
                 <?php if (isset($_SESSION['user']) && is_array($_SESSION['user'])) {
+                    $maKh = $_SESSION['user']['ho_ten'];
                     $hoTen = $_SESSION['user']['ho_ten'];
                     $diaChi = $_SESSION['user']['dia_chi'];
                     $soDt = $_SESSION['user']['so_dt'];
                     $email = $_SESSION['user']['email'];
                     $maKh = $_SESSION['user']['ma_kh'];
                 } else {
+                    $maKh = "";
                     $hoTen = "";
                     $diaChi = "";
                     $soDt = "";
@@ -18,7 +20,7 @@
                 ?>
                 <div class="box-title">Thông tin khách hàng</div>
                 <div class="box-content mb-3">
-                    <!-- <input type="hidden" name="ma_kh" value="<?= $maKh ?>"> -->
+                    <input type="hidden" name="ma_kh" value="<?= $maKh ?>">
                     <div class="row mb-3">
                         <label for="inputEmail3" class="col-sm-2 col-form-label">Người đặt hàng</label>
                         <div class="col-sm-10">
@@ -57,8 +59,9 @@
                     </div>
                     <div class="form-check form-check-inline">
                         <input name="pttt" class="form-check-input" type="checkbox" id="inlineCheckbox2" value="3">
-                        <label class="form-check-label" for="inlineCheckbox2">Thanh toán Online</label>
+                        <label class="form-check-label" for="inlineCheckbox2">Thanh toán khác</label>
                     </div>
+
                 </div>
 
                 <div class="box-title">Thông tin giỏ hàng</div>
