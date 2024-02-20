@@ -98,7 +98,7 @@ if (isset($_GET['act'])) {
                     $errors['so_dt'] = 'Vui lòng nhập thông tin';
                 } else {
                     if (!is_numeric($soDT) && !strlen($soDT) <= 11) {
-                        $errors['so_dt'] = 'Vui lòng kiểm tra lại số điện thoại';
+                        $errors['so_dt'] = 'Sai định dạng số điện thoại, vui lòng kiểm tra lại';
                     }
                 }
 
@@ -133,14 +133,12 @@ if (isset($_GET['act'])) {
                     move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $nameFile);
                     if (!$checkAccount) {
                         dangKyTaiKhoan($hoTen, $email, $matKhau, $nameFile, $diaChi, $soDT);
-                        echo '<script>alert("Đăng ký tài khoản thành công")</script>';
-                        echo '<script>window.location.href="index.php"</script>';
+                        $thongBao = '<div class="alert alert-success mt-3">Đăng ký tài khoản thành công</div>';
                     } else {
-                        echo '<script>alert("Tài khoản đã tồn tại, vui lòng nhập tài khoản khác")</script>';
-                        echo '<script>window.location.href="index.php?act=dang-ky"</script>';
+                        $thongBao = '<div class="alert alert-danger mt-3">Email đã tồn tại, vui lòng nhập email khác</div>';
                     }
                 } else {
-                    echo '<script>alert("Vui lòng kiểm tra lại thông tin")</script>';
+                    $thongBao = '<div class="alert alert-danger mt-3">Đăng ký tài khoản thất bại, vui lòng kiểm tra lại thông tin</div>';
                 }
             }
             include "TaiKhoan/DangKy.php";
