@@ -31,11 +31,14 @@
                 </div>
                 <div class="card-add">
                     <a href="index.php?act=them-san-pham" class="box-link add">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                            height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"></rect>
                                 <circle fill="#000000" cx="9" cy="15" r="6"></circle>
-                                <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3"></path>
+                                <path
+                                    d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
+                                    fill="#000000" opacity="0.3"></path>
                             </g>
                         </svg>
                         Thêm mới sản phẩm
@@ -59,6 +62,7 @@
                 </form>
             </div>
             <div class="card-body ">
+                <?php if(!empty($loadAllSp)){ ?>
                 <form action="index.php?act=xoa-sp-all" method="post">
                     <table class="table table-striped">
                         <thead>
@@ -77,32 +81,39 @@
                         </thead>
                         <tbody>
                             <?php foreach ($loadAllSp as $sp) : ?>
-                                <tr>
-                                    <th><input type="checkbox" name="ma_sp[]" id="checkbox" value="<?= $sp['ma_sp'] ?>">
-                                    </th>
-                                    <th scope="row"><?= $sp['ma_sp'] ?></th>
-                                    <td scope="row"><?= $sp['ten_sp'] ?></td>
-                                    <td scope="row"><?= number_format($sp['don_gia'], 0) ?></td>
-                                    <td scope="row"><?= $sp['giam_gia'] ?></td>
-                                    <td scope="row">
-                                        <img style="width: 70px; height:70px; object-fit: cover;" src="../../upload/<?= $sp['hinh'] ?>" alt="">
-                                    </td>
-                                    <td scope="row"><?= $sp['ngay_nhap'] ?></td>
-                                    <td scope="row"><?= $sp['mo_ta'] ?></td>
-                                    <td scope="row"><?= $sp['so_luot_xem'] ?></td>
-                                    <td>
-                                        <a href="index.php?act=edit-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="btn btn-warning">Sửa</a>
-                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')" href="index.php?act=xoa-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="
+                            <tr>
+                                <th><input type="checkbox" name="ma_sp[]" id="checkbox" value="<?= $sp['ma_sp'] ?>">
+                                </th>
+                                <th scope="row"><?= $sp['ma_sp'] ?></th>
+                                <td scope="row"><?= $sp['ten_sp'] ?></td>
+                                <td scope="row"><?= number_format($sp['don_gia'], 0) ?></td>
+                                <td scope="row"><?= $sp['giam_gia'] ?></td>
+                                <td scope="row">
+                                    <img style="width: 70px; height:70px; object-fit: cover;"
+                                        src="../../upload/<?= $sp['hinh'] ?>" alt="">
+                                </td>
+                                <td scope="row"><?= $sp['ngay_nhap'] ?></td>
+                                <td scope="row"><?= $sp['mo_ta'] ?></td>
+                                <td scope="row"><?= $sp['so_luot_xem'] ?></td>
+                                <td>
+                                    <a href="index.php?act=edit-san-pham&ma_sp=<?= $sp['ma_sp'] ?>"
+                                        class="btn btn-warning">Sửa</a>
+                                    <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')"
+                                        href="index.php?act=xoa-san-pham&ma_sp=<?= $sp['ma_sp'] ?>" class="
                                                     btn btn-danger">Xóa</a>
-                                    </td>
-                                </tr>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
                     <button type="button" name="" id="check-all" class="btn btn-success">Chọn tất cả</button>
                     <button type="button" name="" id="clear-all" class="btn btn-danger">Bỏ chọn</button>
-                    <button onclick="return confirm('Xóa các mục đã chọn chứ?')" id="btn-delete" name="btn_delete" class="btn btn-default">Xóa các mục chọn</button>
+                    <button onclick="return confirm('Xóa các mục đã chọn chứ?')" id="btn-delete" name="btn_delete"
+                        class="btn btn-default">Xóa các mục chọn</button>
                 </form>
+                <?php } else { ?>
+                <div class="alert alert-danger">Không có thứ bạn cần tìm</div>
+                <?php } ?>
             </div>
         </div>
     </div>

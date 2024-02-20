@@ -49,31 +49,35 @@
                 </form>
             </div>
             <div class="card-body ">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th scope="col">ID</th>
-                            <th scope="col">Tên Loại</th>
-                            <th scope="col">Thao Tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($loadAllLoai as $loai) : ?>
+                <?php if (!empty($loadAllLoai)) { ?>
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th><input type="checkbox" name="" id=""></th>
-                                <th scope="row"><?= $loai['ma_loai'] ?></th>
-                                <td><?= $loai['ten_loai'] ?></td>
-                                <td>
-                                    <a href="index.php?act=sua-loai-hang&ma_loai=<?= $loai['ma_loai'] ?>" class="btn btn-warning">Sửa</a>
-                                    <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')" href="index.php?act=xoa-loai-hang&ma_loai=<?= $loai['ma_loai'] ?>" class="
-                                                    btn btn-danger">Xóa</a>
-                                </td>
+                                <th></th>
+                                <th scope="col">ID</th>
+                                <th scope="col">Tên Loại</th>
+                                <th scope="col">Thao Tác</th>
                             </tr>
-                        <?php endforeach; ?>
-                    </tbody>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($loadAllLoai as $loai) : ?>
+                                <tr>
+                                    <th><input type="checkbox" name="" id=""></th>
+                                    <th scope="row"><?= $loai['ma_loai'] ?></th>
+                                    <td><?= $loai['ten_loai'] ?></td>
+                                    <td>
+                                        <a href="index.php?act=sua-loai-hang&ma_loai=<?= $loai['ma_loai'] ?>" class="btn btn-warning">Sửa</a>
+                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm không?')" href="index.php?act=xoa-loai-hang&ma_loai=<?= $loai['ma_loai'] ?>" class="
+                                                    btn btn-danger">Xóa</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
 
-                </table>
+                    </table>
+                <?php } else { ?>
+                    <div class="alert alert-danger">Không có thứ bạn cần tìm</div>
+                <?php } ?>
             </div>
         </div>
     </div>

@@ -43,35 +43,39 @@
                 </div>
             </div>
             <div class="card-body ">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <!-- <th scope="col">Mã sản phẩm</th> -->
-                            <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Số bình luận</th>
-                            <th scope="col">Mới nhất</th>
-                            <th scope="col">Cũ nhất</th>
-                            <th scope="col">Thao Tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($thongKeBinhLuan as $binhLuan) : ?>
+                <?php if (!empty($thongKeBinhLuan)) { ?>
+                    <table class="table table-striped">
+                        <thead>
                             <tr>
-                                <th><input type="checkbox" name="" id=""></th>
-                                <!-- <td scope="row"><?= $binhLuan['ma_sp'] ?></td> -->
-                                <td scope="row"><?= $binhLuan['ten_sp'] ?></td>
-                                <td scope="row"><?= $binhLuan['so_luong'] ?></td>
-                                <td scope="row"><?= $binhLuan['moi_nhat'] ?></td>
-                                <td scope="row"><?= $binhLuan['cu_nhat'] ?></td>
-                                <td>
-                                    <a class="btn btn-light" href="index.php?act=chi-tiet-bl&ma_sp=<?= $binhLuan['ma_sp'] ?>">Chi tiết</a>
-                                </td>
+                                <th scope="col"></th>
+                                <!-- <th scope="col">Mã sản phẩm</th> -->
+                                <th scope="col">Tên sản phẩm</th>
+                                <th scope="col">Số bình luận</th>
+                                <th scope="col">Mới nhất</th>
+                                <th scope="col">Cũ nhất</th>
+                                <th scope="col">Thao Tác</th>
                             </tr>
-                        <?php endforeach; ?>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($thongKeBinhLuan as $binhLuan) : ?>
+                                <tr>
+                                    <th><input type="checkbox" name="" id=""></th>
+                                    <!-- <td scope="row"><?= $binhLuan['ma_sp'] ?></td> -->
+                                    <td scope="row"><?= $binhLuan['ten_sp'] ?></td>
+                                    <td scope="row"><?= $binhLuan['so_luong'] ?></td>
+                                    <td scope="row"><?= $binhLuan['moi_nhat'] ?></td>
+                                    <td scope="row"><?= $binhLuan['cu_nhat'] ?></td>
+                                    <td>
+                                        <a class="btn btn-light" href="index.php?act=chi-tiet-bl&ma_sp=<?= $binhLuan['ma_sp'] ?>">Chi tiết</a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                <?php } else { ?>
+                    <div class="alert alert-danger">Chưa có bình luận nào trên hệ thông</div>
+                <?php } ?>
             </div>
         </div>
     </div>

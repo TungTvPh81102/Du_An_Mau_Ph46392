@@ -1,7 +1,7 @@
 <div class="col box-left">
     <ul class="menu-list">
         <li class="menu-items">
-            <a href="" class="menu-links">
+            <a href="index.php" class="menu-links">
                 <img src="../../public/assets/img/logo.png" alt="">
             </a>
         </li>
@@ -25,6 +25,9 @@
         </li>
         <li class="menu-items">
             <a href="index.php?act=quan-ly-don-hang" class="menu-links">Quản lý đơn hàng</a>
+        </li>
+        <li class="menu-items">
+            <a href="index.php?act=quan-ly-tin-tuc" class="menu-links">Quản lý tin tức</a>
         </li>
         <li class="menu-items">
             <a href="index.php?act=dang-xuat" class="menu-links">

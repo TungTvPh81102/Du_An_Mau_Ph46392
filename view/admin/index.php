@@ -56,23 +56,19 @@ if (isset($_SESSION['user'])) {
                 if (isset($_POST['update-loai']) && ($_POST['update-loai'])) {
                     $tenLoai = $_POST['ten_loai'];
                     $maLoai = $_POST['ma_loai'];
-                    // if (empty(trim($tenLoai))) {
-                    //     $error['ten_loai'] = 'Tên loại không được để trống';
-                    // } else {
-                    //     if (!ctype_alpha(trim($tenLoai))) { // hàm ctype_alpha kiểm tra xem giá trị vừa nhập có phải là chữ cãi không
-                    //         $error['ten_loai'] = 'Tên loại phải nhập là chữ cái';
-                    //     } else if (strlen(trim($tenLoai)) < 6) {
-                    //         $error['ten_loai'] = 'Tên loại phải lớn hơn 6 ký tự';
-                    //     }
-                    // }
+                    if (empty(trim($tenLoai))) {
+                        $error['ten_loai'] = 'Tên loại không được để trống';
+                    }
 
-                    // if (empty($error)) {
-                    updateLoai($maLoai, $tenLoai);
-                    echo '<script>alert("Cập nhật loại hàng thành công")</script>';
-                    echo "<script>window.location.href='index.php?act=quan-ly-loai'</script>";
-                    // } else {
-                    //     $_SESSION['error_mess'] = $error;
-                    // }
+                    if (empty($error)) {
+                        updateLoai($maLoai, $tenLoai);
+                        echo '<script>alert("Cập nhật loại hàng thành công")</script>';
+                        echo "<script>window.location.href='index.php?act=quan-ly-loai'</script>";
+                    } else {
+                        $_SESSION['error_mess'] = $error;
+                        $editLoai =  editLoai($ma_loai);
+                        echo "<script>window.location.href='index.php?act=sua-loai-hang&ma_loai=" . $maLoai . "'</script>";
+                    }
                 }
                 break;
             case 'xoa-loai-hang':
@@ -135,18 +131,26 @@ if (isset($_SESSION['user'])) {
                         }
                     }
 
-                    $fileName = $_FILES['hinh']['name'];
-                    $formatImg = ['jpg', 'png', 'jpeg', 'gif'];
-                    $imgType = pathinfo($fileName, PATHINFO_EXTENSION);
-                    $targetDir = "../../upload/";
 
-                    move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName);
+                    $fileName = $_FILES['hinh']['name'];
+
+                    if (empty($fileName)) {
+                        $error['hinh'] = 'Vui lòng thêm hình ảnh';
+                    } else {
+                        $formatImg = ['jpg', 'png', 'jpeg', 'gif'];
+                        $imgType = pathinfo($fileName, PATHINFO_EXTENSION);
+                        if (!in_array($imgType, $formatImg)) {
+                            $error['hinh'] = 'Ảnh tải lên sai định dạng';
+                        }
+                    }
 
                     if (empty($error)) {
-                        # code...
-                        insertSanPham($tenSp, $donGia, $giamGia, $fileName, $ngayNhap, $moTa, $maLoai);
-                        echo '<script>alert("Thêm sản phẩm thành công")</script>';
-                        echo "<script>window.location.href='index.php?act=quan-ly-sp'</script>";
+                        $targetDir = "../../upload/";
+                        if (move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName)) {
+                            insertSanPham($tenSp, $donGia, $giamGia, $fileName, $ngayNhap, $moTa, $maLoai);
+                            echo '<script>alert("Thêm sản phẩm thành công")</script>';
+                            echo "<script>window.location.href='index.php?act=quan-ly-sp'</script>";
+                        }
                     } else {
                         $_SESSION['error_mess'] = $error;
                     }
@@ -171,12 +175,46 @@ if (isset($_SESSION['user'])) {
                     $giamGia = $_POST['giam_gia'];
                     $moTa = $_POST['mo_ta'];
                     $soLuotXem = $_POST['so_luot_xem'];
-                    $targetDir = "../../upload/";
-                    $fileName = $_FILES['hinh']['name'];
-                    move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName);
-                    updateSanPham($maSp, $tenSp, $donGia, $giamGia, $fileName, $moTa, $maLoai, $soLuotXem);
-                    echo '<script>alert("Cập nhật sản phẩm thành công")</script>';
-                    echo "<script>window.location.href='index.php?act=quan-ly-sp'</script>";
+
+                    if (empty(trim($maLoai))) {
+                        $error['ma_loai'] = "Mã loại không được để trống";
+                    }
+
+                    if (empty(trim($tenSp))) {
+                        $error['ten_sp'] = "Tên sản phẩm không được để trống";
+                    } else {
+                        if (strlen(trim($tenSp)) < 6) {
+                            $error['ten_sp'] = "Tên sản phẩm phải lớn hơn 6 ký tự";
+                        }
+                    }
+
+                    if (empty(trim($donGia))) {
+                        $error['don_gia'] = "Đơn giả không được để trống";
+                    } else {
+                        if (!is_numeric($donGia)) {
+                            $error['don_gia'] = "Sai định dạng giá, vui lòng nhập lại";
+                        }
+                    }
+
+                    if (empty(trim($moTa))) {
+                        $error['mo_ta'] = "Vui lòng nhập mô tả";
+                    } else {
+                        if (strlen(trim($moTa)) < 10) {
+                            $error['mo_ta'] = "Mô tả phải lớn hơn 10 ký tự";
+                        }
+                    }
+
+                    if (empty($error)) {
+                        $targetDir = "../../upload/";
+                        $fileName = $_FILES['hinh']['name'];
+                        move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName);
+                        updateSanPham($maSp, $tenSp, $donGia, $giamGia, $fileName, $moTa, $maLoai, $soLuotXem);
+                        echo '<script>alert("Cập nhật sản phẩm thành công")</script>';
+                        echo "<script>window.location.href='index.php?act=quan-ly-sp'</script>";
+                    } else {
+                        $_SESSION['error_mess'] = $error;
+                        echo "<script>window.location.href='index.php?act=edit-san-pham&ma_sp=" . $maSp . "'</script>";
+                    }
                 }
                 break;
             case 'xoa-san-pham':
@@ -269,8 +307,8 @@ if (isset($_SESSION['user'])) {
                 break;
             case 'edit-khach-hang':
                 if (isset($_GET['ma_kh']) && ($_GET['ma_kh'] > 0)) {
-                    $mKH = $_GET['ma_kh'];
-                    $editKH = editKhachHang($mKH);
+                    $maKH = $_GET['ma_kh'];
+                    $editKH = editKhachHang($maKH);
                 }
                 include "KhachHang/EditKH.php";
                 break;
@@ -285,13 +323,41 @@ if (isset($_SESSION['user'])) {
                     $kichHoat = $_POST['kich_hoat'];
                     $vaiTro = $_POST['vai_tro'];
 
-                    $fileName = $_FILES['hinh']['name'];
-                    $targetDir = "../../upload/";
-                    move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName);
-                    updateKhachHang($maKH, $hoTen, $email, $matKhau, $fileName, $diaChi, $soDT, $vaiTro, $kichHoat);
-                    echo '<script>alert("Cập nhật hàng thành công")</script>';
-                    echo "<script>window.location.href='index.php?act=quan-ly-kh'</script>";
-                    // var_dump($maKH, $hoTen, $email, $matKhau, $fileName, $diaChi, $soDT, $vaiTro, $kichHoat);
+                    // Kiểm tra họ tên
+                    if (empty(trim($hoTen))) {
+                        $error['ho_ten'] = "Vui lòng nhập họ tên";
+                    } else {
+                        if (strlen(trim($hoTen)) < 10) {
+                            $error['ho_ten'] = "Họ tên phải lớn hơn 10 ký tự";
+                        }
+                    }
+
+                    // Kiểm tra email
+                    if (empty(trim($email))) {
+                        $error['email'] = "Vui lòng nhập email";
+                    }
+
+                    // Kiểm tra mật khẩu
+                    if (empty(trim($matKhau))) {
+                        $error['mat_khau'] = "Vui lòng nhập mật khẩu";
+                    } else {
+                        if (strlen(trim($matKhau)) < 6) {
+                            $error['mat_khau'] = "Mật khẩu phải lớn hơn 6 ký tự";
+                        }
+                    }
+
+                    if (empty($error)) {
+                        $fileName = $_FILES['hinh']['name'];
+                        $targetDir = "../../upload/";
+                        move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $fileName);
+                        updateKhachHang($maKH, $hoTen, $email, $matKhau, $fileName, $diaChi, $soDT, $vaiTro, $kichHoat);
+                        echo '<script>alert("Cập nhật hàng thành công")</script>';
+                        echo "<script>window.location.href='index.php?act=quan-ly-kh'</script>";
+                        // var_dump($maKH, $hoTen, $email, $matKhau, $fileName, $diaChi, $soDT, $vaiTro, $kichHoat);
+                    } else {
+                        $_SESSION['error_mess'] = $error;
+                        echo "<script>window.location.href='index.php?act=edit-khach-hang&ma_kh=" . $maKH . "'</script>";
+                    }
                 }
                 break;
             case 'xoa-khach-hang':
@@ -372,66 +438,12 @@ if (isset($_SESSION['user'])) {
                 include "bill/ListBill.php";
                 break;
             case 'chi-tiet-don-hang':
-                if (isset($_GET['ma_kh']) && ($_GET['ma_kh'] > 0)) {
+                if (isset($_GET['ma_kh']) && ($_GET['ma_kh'] > 0) && isset($_GET['id_bill'])) {
+                    $idBill = $_GET['id_bill'];
                     $maKh = $_GET['ma_kh'];
-                    $loadMyBill = loadMyBill($maKh);
+                    $loadMyBill = loadMyCart($maKh, $idBill);
                 }
-
                 include "bill/ChiTietBill.php";
-                break;
-            case 'sua-don-hang':
-                if (isset($_GET['cart']) && ($_GET['cart'] > 0)) {
-                    $cart = $_GET['cart'];
-                    $myBill = loadOneCart($cart);
-                }
-                include "bill/SuaDonHang.php";
-                break;
-            case 'update-don-hang':
-                if (isset($_POST['update-bill'])) {
-                    $thanhTien = 0;
-                    $idBill = $_POST['id_bill'];
-                    $soLuong = $_POST['so_luong'];
-                    $gia = $_POST['gia'];
-                    $tongDon = $soLuong * $gia;
-
-                    updateBill($idBill, $soLuong, $tongDon);
-                    echo '<script>alert("Cập nhật đơn hàng thành công")</script>';
-                    echo "<script>window.location.href='index.php?act=quan-ly-don-hang'</script>";
-                }
-                break;
-            case 'xoa-don-hang':
-                if (isset($_GET['cart']) && ($_GET['cart'] > 0)) {
-
-                    if ($_SESSION['my_cart'] < 0) {
-                        echo '<script>alert("Đơn hàng phải có ít nhất 1 sản phẩm")</script>';
-                    } else {
-                        $cart = $_GET['cart'];
-                        delBill($cart);
-                    }
-                    echo '<script>alert("Xóa đơn hàng thành công")</script>';
-                    echo "<script>window.location.href='index.php?act=quan-ly-don-hang'</script>";
-                }
-                break;
-            case 'them-sp-don-hang':
-                if (isset($_POST['them-dh'])) {
-                    $maSp = $_POST['ma_sp'];
-                    $soLuong = $_POST['so_luong'];
-                    $idBill = $_POST['id_bill'];
-                    $maKh = $_POST['ma_kh'];
-                    if (isset($maSp)) {
-                        $hinh = loadOneSanPham($maSp)['hinh'];
-                        $gia = loadOneSanPham($maSp)['don_gia'];
-                        $tenSp = loadOneSanPham($maSp)['ten_sp'];
-                        $thanhTien = $soLuong * $gia;
-                        addBill($maSp, $hinh, $tenSp, $gia, $soLuong, $maKh, $idBill, $thanhTien);
-                        echo '<script>alert("Thêm đơn hàng thành công")</script>';
-                        echo "<script>window.location.href='index.php?act=quan-ly-don-hang'</script>";
-                    }
-                }
-
-                $donHang =  loadAllDonHang();
-                $loadAllSp = loadAllSanPham($keyWord = "", $ma_loai = 0);
-                include "bill/them-sp-don-hang.php";
                 break;
                 //  ================================== CONTROLLER THỐNG KÊ ==================================
             case 'quan-ly-thong-ke':
@@ -455,9 +467,10 @@ if (isset($_SESSION['user'])) {
         $danhMuc = allLoai();
         $khachHang = allKH();
         $binhLuan = allBL();
+        $donHang = allDonHang();
         include "layout/HomeAdmin.php";
     }
     include "layout/FooterAdmin.php";
 } else {
-    echo '<script>window.location="login.php"</script>';
+    echo '<script>window.location="login.php"</scrip>';
 }

@@ -49,3 +49,9 @@ function allBL()
     $sql = "SELECT COUNT(*) AS so_luong FROM binhluan";
     return pdo_query_one($sql);
 }
+
+function allDonHang()
+{
+    $sql = "SELECT COUNT(*) AS so_luong FROM bill";
+    return pdo_query_one($sql);
+}

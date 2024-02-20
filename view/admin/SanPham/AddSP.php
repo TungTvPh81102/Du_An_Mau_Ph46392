@@ -43,7 +43,7 @@
                             <select name="ma_loai" id="">
                                 <option value="0">---Chọn loại hàng---</option>
                                 <?php foreach ($loadAllLoai as $loai) : ?>
-                                    <option value="<?= $loai['ma_loai'] ?>"><?= $loai['ten_loai'] ?></option>
+                                <option value="<?= $loai['ma_loai'] ?>"><?= $loai['ten_loai'] ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <span style="color: red;">
@@ -75,6 +75,7 @@
                             <label for="">Hình</label>
                             <input type="file" name="hinh" id="">
                             <span style="color: red;">
+                                <?php echo (!empty($errorMessage['hinh'])) ? $errorMessage['hinh'] : ""; ?>
                             </span>
                         </div>
                         <div class="form-group">

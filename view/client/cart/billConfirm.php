@@ -37,15 +37,15 @@
                         foreach ($chiTietDonHang as $donHang) :
                             $tong += $donHang['thanh_tien'];
                         ?>
-                            <tr>
-                                <td style="width: 300px;"><?= $donHang['ten_sp'] ?></td>
-                                <td>
-                                    <img style="width: 70px;" src="../../upload/<?= $donHang['hinh'] ?>" alt="">
-                                </td>
-                                <td><?= number_format($donHang['gia'], 0) ?></td>
-                                <td><?= $donHang['so_luong'] ?></td>
-                                <td><?= number_format($donHang['thanh_tien'], 0) ?></td>
-                            </tr>
+                        <tr>
+                            <td style="width: 300px;"><?= $donHang['ten_sp'] ?></td>
+                            <td>
+                                <img style="width: 70px;" src="../../upload/<?= $donHang['hinh'] ?>" alt="">
+                            </td>
+                            <td><?= number_format($donHang['gia'], 0) ?></td>
+                            <td><?= $donHang['so_luong'] ?></td>
+                            <td><?= number_format($donHang['thanh_tien'], 0) ?></td>
+                        </tr>
                         <?php endforeach; ?>
                         <td colspan="4" class="fw-bold">Tổng thanh toán</td>
                         <td><?= number_format($tong, 0) ?></td>

@@ -40,16 +40,15 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Mã loại hàng</label>
-                            <input type="text" name="ma_loai" id="" placeholder="AUTO" readonly
-                                value="<?= $editLoai['ma_loai'] ?>">
+                            <input type="text" name="ma_loai" id="" placeholder="AUTO" readonly value="<?= $editLoai['ma_loai'] ?>">
                         </div>
                         <div class="form-group">
                             <label for="">Tên loại hàng</label>
-                            <input type="text" name="ten_loai" id="" placeholder="Nhập vào tên sản phẩm"
-                                value="<?= $editLoai['ten_loai'] ?>">
+                            <input type="text" name="ten_loai" id="" placeholder="Nhập vào tên sản phẩm" value="<?= $editLoai['ten_loai'] ?>">
                             <span style="color: red;">
                                 <?php echo (isset($errorMessage['ten_loai'])) ? $errorMessage['ten_loai'] : ""; ?>
                             </span>
+
                         </div>
 
                     </div>

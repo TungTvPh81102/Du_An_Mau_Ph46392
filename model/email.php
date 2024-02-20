@@ -4,7 +4,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-function sendEmail($name, $phone, $to, $subject, $content)
+function sendEmail($to, $subject, $content)
 {
 
     //Import PHPMailer classes into the global namespace
@@ -15,7 +15,7 @@ function sendEmail($name, $phone, $to, $subject, $content)
 
     try {
         // Cấu hình của SMTP
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;                      //Enable verbose debug output
         $mail->isSMTP();                                            //Send using SMTP
         $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
         $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -29,15 +29,15 @@ function sendEmail($name, $phone, $to, $subject, $content)
         $mail->addAddress($to);     //Add a recipient
 
         //Content
+        $mail->CharSet = "UTF-8";
         $mail->isHTML(true);                                  //Set email format to HTML
         $mail->Subject = $subject;
         $mail->Body    = $content;
-        $mail->ContentType = $name;
-        $mail->AltBody = $phone;
-
-
-        $mail->send();
-        echo 'Gửi thành công';
+        $sendEmail =   $mail->send();
+        if ($sendEmail) {
+            return $sendEmail;
+        }
+        // echo 'Gửi thành công';
     } catch (Exception $e) {
         echo "Gửi thất bại. Mailer Error: {$mail->ErrorInfo}";
     }

@@ -30,39 +30,43 @@
                 </div>
             </div>
             <?php
-            // if (isset($_SESSION['error_mess'])) {
-            //     $errorMessage = $_SESSION['error_mess'];
-            // }
-            // unset($_SESSION['error_mess']);
+            if (isset($_SESSION['error_mess'])) {
+                $errorMessage = $_SESSION['error_mess'];
+            }
+            unset($_SESSION['error_mess']);
             ?>
             <div class="card-form">
                 <form action="index.php?act=update-khach-hang" method="post" enctype="multipart/form-data">
                     <div class="card-body">
                         <div class="form-group">
                             <label for="">Mã khách hàng</label>
-                            <input type="text" name="ma_kh" id="" placeholder="AUTO" readonly
-                                value="<?= $editKH['ma_kh'] ?>">
+                            <input type="text" name="ma_kh" id="" placeholder="AUTO" readonly value="<?= $editKH['ma_kh'] ?>">
                             <span style="color: red;">
+
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Họ tên khách hàng</label>
-                            <input type="text" name="ho_ten" id="" placeholder="Nhập họ tên khách hàng"
-                                value="<?= $editKH['ho_ten'] ?>">
+                            <input type="text" name="ho_ten" id="" placeholder="Nhập họ tên khách hàng" value="<?= $editKH['ho_ten'] ?>">
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['ho_ten'])) ? $errorMessage['ho_ten'] : "" ?>
+
+                            </span>
                         </div>
                         <div class="form-group">
                             <label for="">Email</label>
-                            <input type="email" name="email" id="" placeholder="Nhập email"
-                                value="<?= $editKH['email'] ?>">
+                            <input type="email" name="email" id="" placeholder="Nhập email" value="<?= $editKH['email'] ?>">
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['email'])) ? $errorMessage['email'] : "" ?>
+
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Mật khẩu</label>
-                            <input type="password" name="mat_khau" id="" placeholder="Nhập mật khẩu"
-                                value="<?= $editKH['mat_khau'] ?>">
+                            <input type="password" name="mat_khau" id="" placeholder="Nhập mật khẩu" value="<?= $editKH['mat_khau'] ?>">
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['mat_khau'])) ? $errorMessage['mat_khau'] : "" ?>
+
                             </span>
                         </div>
                         <div class="form-group">
@@ -74,31 +78,26 @@
                         </div>
                         <div class="form-group">
                             <label for="">Địa chỉ</label>
-                            <input type="text" name="dia_chi" id="" placeholder="Nhập địa chỉ"
-                                value="<?= $editKH['dia_chi'] ?>">
+                            <input type="text" name="dia_chi" id="" placeholder="Nhập địa chỉ" value="<?= $editKH['dia_chi'] ?>">
                             <span style="color: red;">
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Số điện thoại</label>
-                            <input type="tel" name="so_dt" id="" placeholder="Nhập số điện thoại"
-                                value="<?= $editKH['so_dt'] ?>">
+                            <input type="tel" name="so_dt" id="" placeholder="Nhập số điện thoại" value="<?= $editKH['so_dt'] ?>">
                             <span style="color: red;">
                             </span>
                         </div>
                         <div style="padding-left: 0;" class="form-check">
                             <label for="">Kích hoạt?</label>
-                            <input type="radio" name="kich_hoat" id="" value="1"
-                                <?= !$editKH['kich_hoat'] ? 'checked' : ''  ?>> Chưa kích hoạt
-                            <input type="radio" name="kich_hoat" id="" value="2"
-                                <?= $editKH['kich_hoat'] ? 'checked' : '' ?>> Kích hoạt
+                            <input type="radio" name="kich_hoat" id="" value="1" <?= ($editKH['kich_hoat'] == 1) ? 'checked' : ''  ?>> Chưa kích hoạt
+                            <input type="radio" name="kich_hoat" id="" value="2" <?= ($editKH['kich_hoat'] == 2) ? 'checked' : '' ?>> Kích hoạt
                         </div>
                         <div style="padding-left: 0;" class="form-check">
                             <label for="">Vai trò?</label>
-                            <input type="radio" name="vai_tro" id="" value="1"
-                                <?= !$editKH['vai_tro'] ? 'checked' : '' ?>> Khách hàng
-                            <input type="radio" name="vai_tro" id="" value="2"
-                                <?= $editKH['vai_tro'] ? 'checked' : '' ?>> Quản trị viên
+                            <input type="radio" name="vai_tro" id="" value="1" <?= ($editKH['vai_tro'] == 1) ? 'checked' : '' ?>> Khách hàng
+                            <input type="radio" name="vai_tro" id="" value="2" <?= ($editKH['vai_tro'] == 2) ? 'checked' : '' ?>> Quản trị viên
+
                         </div>
                     </div>
                     <div class="card-footer">

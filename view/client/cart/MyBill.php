@@ -7,35 +7,41 @@
                     <thead>
                         <tr>
                             <th scope="col">Mã đơn hàng</th>
-                            <th scope="col">Tên sản phẩm</th>
-                            <th scope="col">Đơn giá</th>
-                            <th scope="col">Hình ảnh</th>
-                            <th scope="col">Số lượng</th>
-                            <th scope="col">Thành tiền</th>
+                            <th scope="col">Ngày đặt hàng</th>
+                            <th scope="col">Số lượng mặt hàng</th>
+                            <th scope="col">Tổng giá trị đơn hàng</th>
+                            <th scope="col">Tình trạng đơn hàng</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        $tong = 0;
-                        foreach ($loadMyBill as $myBill) :
-                            $thanhTien = $myBill['so_luong'] * $myBill['gia'];
-                            $tong += $thanhTien;
+                        if (is_array($loadMyBill)) {
+                            foreach ($loadMyBill as $myBill) :
+                                // Kiểm tra xem đã tồn tại $displayedOrders chưa
+                                if (!isset($displayedOrders)) {
+                                    $displayedOrders = array(); // Mảng để lưu các mã đơn hàng đã xuất hiện
+                                }
+                                // Kiểm tra xem đơn hàng có mã đã xuất hiện chưa
+                                // Nếu đơn hàng chưa xuất hiện thì thực thi điều kiện và đánh đấu mã đơn hàng vào mảng displayedOrders
+                                if (!in_array($myBill['id_bill'], $displayedOrders)) {
+                                    // Đánh dấu đơn hàng này đã hiển thị vào cuối mảng displayedOrders
+                                    $displayedOrders[] = $myBill['id_bill'];
+                                    $status = getTtdh($myBill['trang_thai']);
+                                    $count = countCheck($myBill['id_bill']);
                         ?>
-                            <tr>
-                                <td><?= $myBill['id_bill'] ?></td>
-                                <td><?= $myBill['ten_sp'] ?></td>
-                                <td><?= number_format($myBill['gia'], 0) ?></td>
-                                <td>
-                                    <img style="width: 70px;" src="../../upload/<?= $myBill['hinh'] ?>" alt="">
-                                </td>
-                                <td><?= $myBill['so_luong'] ?></td>
-                                <td><?= number_format($myBill['thanh_tien'], 0) ?></td>
-                            </tr>
-                        <?php endforeach; ?>
+                        <!-- Hiển thị thông tin  -->
                         <tr>
-                            <td>Thành tiền</td>
-                            <td colspan="5"><?= number_format($tong, 0) ?></td>
+                            <td><?= $myBill['id_bill'] ?></td>
+                            <td><?= $myBill['ngay_dat'] ?></td>
+                            <td><?= $count ?></td>
+                            <td><?= number_format($myBill['total'], 0) ?></td>
+                            <td><?= $status ?></td>
                         </tr>
+                        <?php
+                                }
+                            endforeach;
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>

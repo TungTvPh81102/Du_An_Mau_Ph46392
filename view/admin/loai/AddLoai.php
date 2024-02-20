@@ -44,7 +44,7 @@
                         </div>
                         <div class="form-group">
                             <label for="">Tên loại hàng</label>
-                            <input type="text" name="ten_loai" id="" placeholder="Nhập vào tên loại hàng">
+                            <input type="text" name="ten_loai" id="" placeholder="Nhập vào tên loại hàng" value="<?= $tenLoai ?>">
                             <span style="color: red;">
                                 <?php echo (!empty($errorMessage['ten_loai'])) ? $errorMessage['ten_loai'] : ""; ?>
                             </span>

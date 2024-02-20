@@ -11,7 +11,6 @@ require_once "../../model/loai.php";
 require_once "../../model/SanPham.php";
 require_once "../../model/KhachHang.php";
 require_once "../../model/cart.php";
-// sendEmail('quaixe121811@gmail.com', 'PHP Backend Developer', 'Xin chào Bạn tôi tên là: Trương Văn Tùng');
 $loadAllSanPham =  timKiemSanPham($keyWord = "");
 $loadAllDanhMuc  = loadAllDanhMucHome();
 $topSanPham = topSanPham();
@@ -21,18 +20,10 @@ if (!isset($_SESSION['my_cart'])) {
     // $_SESSION['my_cart'];
     $_SESSION['my_cart'] = [];
 }
+$errors = [];
 if (isset($_GET['act'])) {
     $act = $_GET['act'];
     switch ($act) {
-        case 'email':
-            if (isset($_POST['email']) && ($_POST['email'])) {
-                $email = $_POST['email'];
-                $content = $_POST['content'];
-                $name = $_POST['name'];
-                $phone = $_POST['phone'];
-                sendEmail($name, $phone, $email, 'PHP BackEnd Developer', $content);
-            }
-            break;
         case 'search':
             if (isset($_POST['search']) && ($_POST['search'])) {
                 $keyWord = $_POST['keyword'];
@@ -44,20 +35,42 @@ if (isset($_GET['act'])) {
             if (isset($_POST['login']) && ($_POST['login'])) {
                 $email = $_POST['email'];
                 $matKhau = $_POST['mat_khau'];
-                $vaiTro = 0;
+                $vaiTro = 1;
                 $checkUser = checkUser($email, $matKhau, $vaiTro);
                 var_dump($checkUser);
                 var_dump($email);
                 var_dump($matKhau);
-                if (is_array($checkUser)) {
-                    $_SESSION['user'] = $checkUser;
-                    var_dump($_SESSION['user']);
-                    echo '<script>alert("Đăng nhập thành công")</script>';
-                    echo '<script>window.location.href="index.php"</script>';
-                    // header('Location: index.php');
-                    exit();
+                if (empty($email)) {
+                    $errors['email'] = 'Vui lòng nhập địa chỉ email';
                 } else {
-                    echo '<script>alert("Tài khoản mật khẩu chưa đúng")</script>';
+                    $checkEmail = checkEmail($email);
+                    if (!$checkEmail) {
+                        $errors['email'] = 'Tài khoản mật khẩu không đúng';
+                    }
+                }
+
+                if (empty($matKhau)) {
+                    $errors['mat_khau'] = 'Vui lòng nhập mật khẩu';
+                } else {
+                    $checkPass = checkPass($matKhau);
+                    if (!$checkPass) {
+                        $errors['mat_khau'] = 'Tài khoản mật khẩu không đúng';
+                    }
+                }
+
+                if (empty($errors)) {
+                    if (is_array($checkUser)) {
+                        $_SESSION['user'] = $checkUser;
+                        var_dump($_SESSION['user']);
+                        echo '<script>alert("Đăng nhập thành công")</script>';
+                        echo '<script>window.location.href="index.php"</script>';
+                        // header('Location: index.php');
+                        exit();
+                    } else {
+                        echo '<script>alert("Tài khoản mật khẩu chưa đúng")</script>';
+                    }
+                } else {
+                    echo '<script>alert("Vui lòng kiểm tra lại thông tin")</script>';
                 }
             } else {
                 session_unset();
@@ -73,7 +86,47 @@ if (isset($_GET['act'])) {
                 $matKhau = $_POST['mat_khau'];
                 $matKhau2 = $_POST['mat_khau2'];
                 $checkAccount = checkTaiKhoanDangKy($email);
-                if ($matKhau === $matKhau2) {
+                if (empty($hoTen)) {
+                    $errors['ho_ten'] = 'Vui lòng nhập thông tin';
+                }
+
+                if (empty($diaChi)) {
+                    $errors['dia_chi'] = 'Vui lòng nhập thông tin';
+                }
+
+                if (empty($soDT)) {
+                    $errors['so_dt'] = 'Vui lòng nhập thông tin';
+                } else {
+                    if (!is_numeric($soDT) && !strlen($soDT) <= 11) {
+                        $errors['so_dt'] = 'Vui lòng kiểm tra lại số điện thoại';
+                    }
+                }
+
+                if (empty($email)) {
+                    $errors['email'] = 'Vui lòng nhập thông tin';
+                } else {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        $errors['email'] = 'Sai định dạng email, vui lòng nhập lại';
+                    } else {
+                        if ($checkAccount) {
+                            $errors['email'] = 'Địa chỉ email đã tồn tại, vui lòng nhập địa chỉ khác';
+                        }
+                    }
+                }
+
+                if (empty($matKhau)) {
+                    $errors['mat_khau'] = 'Vui lòng nhập thông tin';
+                }
+
+                if (empty($matKhau2)) {
+                    $errors['mat_khau2'] = 'Vui lòng nhập thông tin';
+                }
+
+                if ($matKhau !== $matKhau2) {
+                    $errors['mat_khau2'] = 'Xác nhận mật khẩu không khớp, vui lòng nhập lại';
+                }
+
+                if (empty($errors)) {
                     $hashedPassword = password_hash($matKhau, PASSWORD_DEFAULT);
                     $nameFile = $_FILES['hinh']['name'];
                     $targetDir = "../../upload/";
@@ -87,7 +140,7 @@ if (isset($_GET['act'])) {
                         echo '<script>window.location.href="index.php?act=dang-ky"</script>';
                     }
                 } else {
-                    echo '<script>alert("Mật khẩu ko trùng khớp")</script>';
+                    echo '<script>alert("Vui lòng kiểm tra lại thông tin")</script>';
                 }
             }
             include "TaiKhoan/DangKy.php";
@@ -116,15 +169,30 @@ if (isset($_GET['act'])) {
                 $matKhau3 = $_POST['mat_khau3'];
                 $checkPass = checkPass($matKhau3);
                 $maKh = $_SESSION['user']['ma_kh'];
-                if ($matKhau1 !== $matKhau2) {
-                    echo '<script>alert("Mật khẩu mới khùng khớp")</script>';
+
+                if (empty($matKhau1)) {
+                    $errors['mat_khau1'] = 'Vui lòng nhập thông tin';
+                }
+                if (empty($matKhau2)) {
+                    $errors['mat_khau2'] = 'Vui lòng nhập thông tin';
+                }
+                if (empty($matKhau3)) {
+                    $errors['mat_khau3'] = 'Vui lòng nhập thông tin';
                 } else {
                     if (!$checkPass) {
-                        echo '<script>alert("Xác nhận mật khẩu chưa chính xác")</script>';
-                    } else {
-                        updatePass($maKh, $matKhau2);
-                        echo '<script>alert("Đổi mật khẩu thành công")</script>';
+                        $errors['mat_khau1'] = 'Mật khẩu chưa chính xác';
                     }
+                }
+
+                if ($matKhau1 !== $matKhau2) {
+                    $errors['mat_khau2'] = 'Xác nhận mật khẩu chưa đúng, vui lòng kiểm tra lại';
+                }
+
+                if (!empty($errors)) {
+                    echo '<script>alert("Vui lòng kiểm tra lại thông tin")</script>';
+                } else {
+                    updatePass($maKh, $matKhau2);
+                    $thongBao = "Thay đổi mật khẩu thành công";
                 }
             }
             include "TaiKhoan/DoiMk.php";
@@ -136,7 +204,19 @@ if (isset($_GET['act'])) {
                 if (!$checkEmail) {
                     $thongBao = "Email không tồn tại, vui lòng kiểm tra lại";
                 } else {
-                    $thongBao = "Mật khẩu của bạn là: " . '<strong>' . $checkEmail['mat_khau'] . '</strong>';
+                    // $thongBao = "Mật khẩu của bạn là: " . '<strong>' . $checkEmail['mat_khau'] . '</strong>';
+                    $subject = 'Yêu cầu thay đổi mật khẩu của bạn';
+                    $content = 'Chào bạn' . '<br>';
+                    $content .= 'Chúng tôi nhận được yêu cầu khôi phục mật khẩu từ bạn, vui lòng kiểm tra lại thông tin mật khẩu dưới đây' . '<br>';
+                    $content .= "Mật khẩu của bạn là: " . '<strong>' . $checkEmail['mat_khau'] . '</strong>' . '<br>';
+                    $content .= 'Trận trọng cảm ơn!!!';
+
+                    $sendEmail = sendEmail($email, $subject, $content);
+                    if ($sendEmail) {
+                        $thongBao = 'Yêu cầu đã được gửi, vui lòng kiểm tra email để lấy mật khẩu';
+                    } else {
+                        $thongBao = 'Gửi email thất bại, vui lòng kiểm tra lại thông tin';
+                    }
                 }
             }
             include "TaiKhoan/QuenMk.php";
@@ -165,6 +245,7 @@ if (isset($_GET['act'])) {
                 $maSanPham = $_GET['ma_sp'];
                 $sanPhamChiTiet = loadOneSanPham($maSanPham);
                 $sanPhamCungLoai = sanPhamCungLoai($maSanPham, $sanPhamChiTiet['ma_loai']);
+                updateView($maSanPham, $sanPhamChiTiet['so_luot_xem']);
                 include "layout/sanPhamCT.php";
             } else {
                 include "layout/home.php";
@@ -248,14 +329,19 @@ if (isset($_GET['act'])) {
                 // }
                 if (isset($idDonHang)) {
                     $donHang = loadDonHang($idDonHang);
-                    $chiTietDonHang = loadAllCart($idDonHang);
+                    $chiTietDonHang = loadCart($idDonHang);
                 }
             }
             include "cart/billConfirm.php";
             break;
         case 'don-hang':
-            if (isset($_GET['ma_kh']) && ($_GET['ma_kh'] > 0)) {
-                $maKh = $_GET['ma_kh'];
+            // if (isset($_GET['ma_kh']) && ($_GET['ma_kh'] > 0)) {
+            //     $maKh = $_GET['ma_kh'];
+            //     $loadMyBill = loadMyBill($maKh);
+            // }
+            if (isset($_SESSION['user'])) {
+                $maKh = $_SESSION['user']['ma_kh'];
+
                 $loadMyBill = loadMyBill($maKh);
             }
             include "cart/MyBill.php";
@@ -268,6 +354,14 @@ if (isset($_GET['act'])) {
             break;
         case 'lien-he':
             include "layout/LienHe.php";
+            break;
+        case 'email':
+            if (isset($_POST['email']) && ($_POST['email'])) {
+                $email = $_POST['email'];
+                $content = $_POST['content'];
+                $content .= 'Chào bạn chúng tôi đã nhận được thông tin liên hệ từ bạn';
+                sendEmail($email, 'PHP BackEnd Developer', $content);
+            }
             break;
         default:
             include "layout/home.php";

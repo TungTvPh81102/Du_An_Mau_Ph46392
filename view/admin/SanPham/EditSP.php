@@ -30,10 +30,10 @@
                 </div>
             </div>
             <?php
-            // if (isset($_SESSION['error_mess'])) {
-            //     $errorMessage = $_SESSION['error_mess'];
-            // }
-            // unset($_SESSION['error_mess']);
+            if (isset($_SESSION['error_mess'])) {
+                $errorMessage = $_SESSION['error_mess'];
+            }
+            unset($_SESSION['error_mess']);
             ?>
             <div class="card-form">
                 <form action="index.php?act=cap-nhat-sp" method="post" enctype="multipart/form-data">
@@ -58,12 +58,15 @@
                             <label for="">Tên sản phẩm</label>
                             <input type="text" name="ten_sp" id="" placeholder="Nhập vào tên sản phẩm" value="<?= $editSp['ten_sp'] ?>">
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['ten_sp'])) ? $errorMessage['ten_sp'] : "" ?>
                             </span>
                         </div>
                         <div class="form-group">
                             <label for="">Đơn giá</label>
                             <input type="text" name="don_gia" id="" placeholder="Nhập giá sản phẩm" value="<?= $editSp['don_gia'] ?>">
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['don_gia'])) ? $errorMessage['don_gia'] : "" ?>
+
                             </span>
                         </div>
                         <div class="form-group">
@@ -91,6 +94,7 @@
                                 <?= $editSp['mo_ta'] ?>
                             </textarea>
                             <span style="color: red;">
+                                <?php echo (isset($errorMessage['mo_ta'])) ? $errorMessage['mo_ta'] : "" ?>
                             </span>
                         </div>
                         <div class="form-group">

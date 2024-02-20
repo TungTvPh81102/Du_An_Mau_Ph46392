@@ -78,3 +78,11 @@ function timKiemSanPham($keyWord)
     $sql .= " ORDER BY ma_sp DESC";
     return pdo_query($sql);
 }
+
+// Cập nhật lượt xem
+function updateView($maSP, $soLuotXem)
+{
+    $soLuotXem++;
+    $sql = "UPDATE sanpham SET so_luot_xem  = '$soLuotXem' WHERE ma_sp = '$maSP'";
+    pdo_execute($sql);
+}
