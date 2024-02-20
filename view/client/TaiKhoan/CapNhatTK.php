@@ -5,6 +5,9 @@
                 extract($_SESSION['user']);
             ?>
             <div class="box-title">Cập nhật tài khoản</div>
+            <?php if (isset($thongBao) && ($thongBao !== "")) {
+                echo $thongBao;
+            } ?>
             <form class="mt-3" action="index.php?act=cap-nhat-tk" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="ma_kh" value="<?= $ma_kh ?>">
                 <div class="mb-3">

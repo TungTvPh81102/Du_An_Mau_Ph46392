@@ -155,8 +155,7 @@ if (isset($_GET['act'])) {
                 move_uploaded_file($_FILES['hinh']['tmp_name'], $targetDir . $nameFile);
                 capNhatTaiKhoan($maKh, $hoTen, $email, $nameFile, $diaChi, $soDT);
                 $_SESSION['user'] = checkEmail($email);
-                echo '<script>alert("Cập nhật tài khoản thành công")</script>';
-                // echo '<script>window.location.href="index.php"</script>';
+                $thongBao = '<div class="alert alert-success mt-3">Cập nhật tài khoản thành công</div>';
             }
             include "TaiKhoan/CapNhatTK.php";
             break;
